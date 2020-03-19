@@ -22,7 +22,8 @@ send_to = joe
 joephone = '8159006943@txt.att.net'
 text_to = joephone
 
-def getJobData(jobnum):    
+def getJobData(jobnum):
+    jobnum = "'" + jobnum.upper() + "'"    
     with open('sql_access.txt', 'r') as file:
         access = file.readlines()
     
@@ -33,12 +34,14 @@ def getJobData(jobnum):
                       + access[0] +
                       'Trusted_Connect=yes;')
     
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT Parts.CustName, Parts.CustPartNum "
+    command = ("SELECT Parts.CustName, Parts.CustPartNum "
                    "FROM QssCatiJobTrack.dbo.Jobs, QssCatiJobTrack.dbo.Parts "
                    "WHERE Jobs.JobNum LIKE " + jobnum + " "
-                   "AND Jobs.PartID = Parts.PartID ")
+                   "AND Jobs.PartID = Parts.PartID ")    
+    
+    cursor = conn.cursor()
+    
+    cursor.execute(command)
     
     for row in cursor:
         job_data[jobnum] = [row[0],row[1]]
