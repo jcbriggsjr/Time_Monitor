@@ -54,7 +54,7 @@ def formatMessage(jlist,machine,et,operator):
     msg = ""
     
     for k in sorted(jlist):
-        job = k
+        job = k.strip("'")
         cust = jlist[k][0]
         p_num = jlist[k][1]        
         msg = ("Job " + job + " for " + cust + ", part # " + p_num + 
